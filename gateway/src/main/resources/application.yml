@@ -7,6 +7,6 @@ spring:
           predicates:
             - Path=/api/**
         - id: vue
-          uri: http://localhost:5173
+          uri: http://localhost:3000
           predicates:
             - Path=/vue/**
