@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: payment_routh #payment_route    #???ID????????????????????
+          uri: http://localhost:8081          #????????????
+          predicates:
+            - Path=/api/**
+        - id: vue
+          uri: http://localhost:5173
+          predicates:
+            - Path=/vue/**

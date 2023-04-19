@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 /**
  * 返回值类
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResultCode {
     boolean status; // 当前状态
     int code;       // err code

@@ -14,14 +14,14 @@ import java.util.List;
 @Repository
 public interface UserWrapper {
     @Select("select * from user")
-    public List<User> getUsers() throws SQLException;
+    List<User> getUsers() throws SQLException;
 
     @Find("select * from user where username = '{0}'")
-    public User getUserByName(String username) throws SQLException;
+    User getUserByName(String username) throws SQLException;
 
     @Find("select * from user where id = {0}")
-    public User getUserById(Integer id) throws SQLException;
+    User getUserById(Integer id) throws SQLException;
 
     @Insert("insert into user (username, password) VALUES ('{0}', '{1}')")
-    public Integer addUser(String username, String password) throws SQLException;
+    Integer addUser(String username, String password) throws SQLException;
 }

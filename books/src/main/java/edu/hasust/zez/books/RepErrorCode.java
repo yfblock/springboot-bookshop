@@ -9,7 +9,7 @@ public enum RepErrorCode {
     USER_WRONG_EMAIL_FORMAT("用户邮箱格式错误"),
 
     ;
-    private String errMsg;
+    private final String errMsg;
 
     RepErrorCode(String errMsg) {
         this.errMsg = errMsg;
