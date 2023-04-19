@@ -35,7 +35,7 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` (`id`, `username`, `password`, `phone`, `email`, `group`) VALUES (1, 'admin', '21232F297A57A5A743894A0E4A801FC3', '13213213200', '21232F297A57A5A743894A0E4A801FC3', NULL);
+INSERT INTO `user` (`id`, `username`, `password`, `phone`, `email`, `group`) VALUES (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '13213213200', 'admin@admin.org', NULL);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

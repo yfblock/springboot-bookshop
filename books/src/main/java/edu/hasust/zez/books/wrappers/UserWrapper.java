@@ -19,6 +19,9 @@ public interface UserWrapper {
     @Find("select * from user where username = '{0}'")
     public User getUserByName(String username) throws SQLException;
 
+    @Find("select * from user where id = {0}")
+    public User getUserById(Integer id) throws SQLException;
+
     @Insert("insert into user (username, password) VALUES ('{0}', '{1}')")
     public Integer addUser(String username, String password) throws SQLException;
 }
