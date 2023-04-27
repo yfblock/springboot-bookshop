@@ -1,105 +1,97 @@
 <template>
-  <header>
-    <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
-      <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-        <a href="/" class="flex items-center">
-          <img src="https://flowbite.com/docs/images/logo.svg" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
-          <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">EZ平台</span>
-        </a>
+  <!-- header -->
+  <header class="py-4 shadow-sm bg-white">
+    <div class="container flex items-center justify-between">
+      <NuxtLink to="/">
+        <img src="/assets/images/logo.svg" alt="Logo" class="w-32">
+      </NuxtLink>
 
-        <div class="flex items-center md:order-2" v-if="checkLogin()">
-          <button type="button"
-            class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-            id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
-            data-dropdown-placement="bottom">
-            <span class="sr-only">Open user menu</span>
-            <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo">
-          </button>
-          <!-- Dropdown menu -->
-          <div
-            class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
-            id="user-dropdown">
-            <div class="px-4 py-3">
-              <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-              <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+      <div class="w-full max-w-xl relative flex">
+        <span class="absolute left-3 top-3 text-lg text-gray-400">
+          <i class="icon icon-search"></i>
+        </span>
+        <input type="text" name="search" id="search"
+          class="w-full border border-primary border-r-0 pl-8 py-3 pr-3 rounded-l-md focus:outline-none"
+          placeholder="请输入需要搜索的内容" />
+        <button class="bg-primary border border-primary text-white px-8 rounded-r-md hover:bg-transparent hover:text-primary transition whitespace-nowrap">搜索</button>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <template v-if="checkLogin()">
+          <a href="#" class="text-center text-gray-700 hover:text-primary transition relative">
+            <div class="text-2xl">
+              <i class="icon icon-cart"></i>
             </div>
-            <ul class="py-2" aria-labelledby="user-menu-button">
-              <li>
-                <a href="#"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
-              </li>
-              <li>
-                <a href="#"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
-              </li>
-              <li>
-                <a href="#"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
-              </li>
-              <li>
-                <a href="#"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
-                  out</a>
-              </li>
-            </ul>
-          </div>
-          <button data-collapse-toggle="mobile-menu-2" type="button"
-            class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="mobile-menu-2" aria-expanded="false">
-            <span class="sr-only">Open main menu</span>
-            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd"
-                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                clip-rule="evenodd"></path>
-            </svg>
-          </button>
-        </div>
-
-        <div class="flex items-center lg:order-2" v-else>
-          <NuxtLink href="/login"
-            class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">
-            登陆
+            <div class="text-xs leading-3">Cart</div>
+            <div
+              class="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
+              2</div>
+          </a>
+          <NuxtLink to="/login" class="text-center text-gray-700 hover:text-primary transition relative">
+            <div class="text-2xl">
+              <i class="icon icon-people"></i>
+            </div>
+            <div class="text-xs leading-3">Account</div>
           </NuxtLink>
-          <NuxtLink href="/register"
-            class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-            注册</NuxtLink>
-        </div>
+        </template>
+        <template v-else>
+          <NuxtLink href="/login" class="text-black rounded-sm hover:bg-gray-300 py-2 px-2.5 transition whitespace-nowrap">登陆</NuxtLink>
+          <NuxtLink href="/register" class="text-black rounded-sm hover:bg-gray-300 py-2 px-2.5 transition whitespace-nowrap">注册</NuxtLink>
 
-        <div class="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
-          <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-            <li>
-              <NuxtLink href="/"
-                class="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white"
-                aria-current="page">
-                首页
-              </NuxtLink>
-            </li>
-            <li>
-              <a href="#"
-                class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Company</a>
-            </li>
-            <li>
-              <a href="#"
-                class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Marketplace</a>
-            </li>
-            <li>
-              <a href="#"
-                class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Features</a>
-            </li>
-            <li>
-              <a href="#"
-                class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Team</a>
-            </li>
-            <li>
-              <a href="#"
-                class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
-            </li>
-          </ul>
+        </template>
+      </div>
+    </div>
+  </header>
+  <!-- ./header -->
+
+  <!-- navbar -->
+  <nav class="bg-gray-800">
+    <div class="container flex">
+      <div class="px-8 py-4 bg-primary flex items-center cursor-pointer relative group">
+        <span class="text-white">
+          <i class="fa-solid fa-bars"></i>
+        </span>
+        <span class="capitalize ml-2 text-white">所有类别</span>
+
+        <!-- dropdown -->
+        <div
+          class="absolute w-full left-0 top-full bg-white shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible">
+          <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-100 transition">
+            <img src="/assets/images/icons/sofa.svg" alt="sofa" class="w-5 h-5 object-contain">
+            <span class="ml-6 text-grahtmly-600 text-sm">Sofa</span>
+          </a>
+          <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-100 transition">
+            <img src="/assets/images/icons/terrace.svg" alt="terrace" class="w-5 h-5 object-contain">
+            <span class="ml-6 text-gray-600 text-sm">Terarce</span>
+          </a>
+          <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-100 transition">
+            <img src="/assets/images/icons/bed.svg" alt="bed" class="w-5 h-5 object-contain">
+            <span class="ml-6 text-gray-600 text-sm">Bed</span>
+          </a>
+          <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-100 transition">
+            <img src="/assets/images/icons/office.svg" alt="office" class="w-5 h-5 object-contain">
+            <span class="ml-6 text-gray-600 text-sm">office</span>
+          </a>
+          <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-100 transition">
+            <img src="/assets/images/icons/outdoor-cafe.svg" alt="outdoor" class="w-5 h-5 object-contain">
+            <span class="ml-6 text-gray-600 text-sm">Outdoor</span>
+          </a>
+          <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-100 transition">
+            <img src="/assets/images/icons/bed-2.svg" alt="Mattress" class="w-5 h-5 object-contain">
+            <span class="ml-6 text-gray-600 text-sm">Mattress</span>
+          </a>
         </div>
       </div>
-    </nav>
-  </header>
+
+      <div class="flex items-center justify-between flex-grow pl-12">
+        <div class="flex items-center space-x-8 capitalize">
+          <NuxtLink href="/" class="text-gray-200 hover:text-white transition">首页</NuxtLink>
+          <NuxtLink href="/shop_list" class="text-gray-200 hover:text-white transition">商城列表</NuxtLink>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- ./navbar -->
 </template>
 
 <script>

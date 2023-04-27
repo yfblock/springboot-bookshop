@@ -5,7 +5,11 @@
 </template>
 
 <style>
-@import url("https://at.alicdn.com/t/c/font_4043163_r3oj60mu2t.css?spm=a313x.7781069.1998910419.53&file=font_4043163_r3oj60mu2t.css");
+@import url("//at.alicdn.com/t/c/font_4043163_tnu2cqdowuc.css");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+@import url("./public/assets/css/main.css");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,35 +21,62 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* @layer base {
+  body {
+    @apply font-poppins;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-roboto;
+  }
+}
+
+@layer components {
+  .size-selector input:checked + label {
+    @apply bg-primary text-white;
+  }
+  .color-selector input:checked + label {
+    @apply ring-2 ring-primary;
+  }
+
+  .input-box {
+    @apply block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0;
+  }
+} */
+
 </style>
 
 <script setup>
-import { onMounted } from 'vue'
-import { 
-    initAccordions, 
-    initCarousels, 
-    initCollapses, 
-    initDials, 
-    initDismisses, 
-    initDrawers, 
-    initDropdowns, 
-    initModals, 
-    initPopovers, 
-    initTabs, 
-    initTooltips } from 'flowbite'
+// import { onMounted } from 'vue'
+// import { 
+//     initAccordions, 
+//     initCarousels, 
+//     initCollapses, 
+//     initDials, 
+//     initDismisses, 
+//     initDrawers, 
+//     initDropdowns, 
+//     initModals, 
+//     initPopovers, 
+//     initTabs, 
+//     initTooltips } from 'flowbite'
 
-// initialize components based on data attribute selectors
-onMounted(() => {
-    initAccordions();
-    initCarousels();
-    initCollapses();
-    initDials();
-    initDismisses();
-    initDrawers();
-    initDropdowns();
-    initModals();
-    initPopovers();
-    initTabs();
-    initTooltips();
-})
+// // initialize components based on data attribute selectors
+// onMounted(() => {
+//     initAccordions();
+//     initCarousels();
+//     initCollapses();
+//     initDials();
+//     initDismisses();
+//     initDrawers();
+//     initDropdowns();
+//     initModals();
+//     initPopovers();
+//     initTabs();
+//     initTooltips();
+// })
 </script>
