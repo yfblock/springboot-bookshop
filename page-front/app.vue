@@ -80,8 +80,4 @@
 //     initTooltips();
 // })
 
-import { useUser } from '@/stores/user'
-
-const main = useUser();
-
 </script>

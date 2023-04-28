@@ -17,7 +17,7 @@
       </div>
 
       <div class="flex items-center space-x-4">
-        <template v-if="checkLogin()">
+        <template v-if="user.logined">
           <a href="#" class="text-center text-gray-700 hover:text-primary transition relative">
             <div class="text-2xl">
               <i class="icon icon-cart"></i>
@@ -94,17 +94,7 @@
   <!-- ./navbar -->
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      count: 0
-    }
-  },
-  methods: {
-    checkLogin() {
-      return false;
-    }
-  }
-}
+<script setup lang="ts">
+import { useUser } from '~/stores/user';
+const user = useUser();
 </script>
