@@ -7,7 +7,7 @@
           <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             登陆你的账号
           </h1>
-          <form class="space-y-4 md:space-y-6" action="#">
+          <form class="space-y-4 md:space-y-6" action="">
             <div>
               <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 邮箱
@@ -26,8 +26,7 @@
               <div class="flex items-start">
                 <div class="flex items-center h-5">
                   <input id="remember" aria-describedby="remember" type="checkbox"
-                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                    required="">
+                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800">
                 </div>
                 <div class="ml-3 text-sm">
                   <label for="remember" class="text-gray-500 dark:text-gray-300">记住账号</label>
@@ -39,11 +38,32 @@
               class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign
               in</button>
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-            没有账号? 现在<NuxtLink href="/register"
-              class="font-medium text-primary-600 hover:underline dark:text-primary-500">注册</NuxtLink>
-          </p>
-        </form>
+              没有账号? 现在<NuxtLink href="/register"
+                class="font-medium text-primary-600 hover:underline dark:text-primary-500">注册</NuxtLink>
+            </p>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-</section></template>
+  </section>
+</template>
+
+<script>
+import { mapMutations } from 'vuex'
+
+export default {
+  data() {
+    return {
+      count: 0
+    }
+  },
+  methods: {
+    checkLogin() {
+      return this.$store.state.logined;
+    },
+    ...mapMutations({
+      updateLogin: 'index'
+    })
+  }
+}
+</script>
