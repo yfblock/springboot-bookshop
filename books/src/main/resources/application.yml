@@ -10,3 +10,4 @@ spring:
     name: cloud-gateway
 server:
   port: 8081
+debug: true

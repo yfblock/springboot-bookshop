@@ -51,33 +51,51 @@
 </style>
 
 <script setup>
-// import { onMounted } from 'vue'
-// import { 
-//     initAccordions, 
-//     initCarousels, 
-//     initCollapses, 
-//     initDials, 
-//     initDismisses, 
-//     initDrawers, 
-//     initDropdowns, 
-//     initModals, 
-//     initPopovers, 
-//     initTabs, 
-//     initTooltips } from 'flowbite'
+import { onMounted } from 'vue'
+import { 
+  initAccordions, 
+  initCarousels, 
+  initCollapses, 
+  initDials, 
+  initDismisses, 
+  initDrawers, 
+  initDropdowns, 
+  initModals, 
+  initPopovers, 
+  initTabs, 
+  initTooltips } from 'flowbite'
+import { useUser } from './stores/user';
+import { useToast } from './stores/toast';
+import { getUserInfo } from './utils/requests';
 
-// // initialize components based on data attribute selectors
-// onMounted(() => {
-//     initAccordions();
-//     initCarousels();
-//     initCollapses();
-//     initDials();
-//     initDismisses();
-//     initDrawers();
-//     initDropdowns();
-//     initModals();
-//     initPopovers();
-//     initTabs();
-//     initTooltips();
-// })
+const toast = useToast();
+
+// initialize components based on data attribute selectors
+onMounted(() => {
+  initAccordions();
+  initCarousels();
+  initCollapses();
+  initDials();
+  initDismisses();
+  initDrawers();
+  initDropdowns();
+  initModals();
+  initPopovers();
+  initTabs();
+  initTooltips();
+
+  let div = document.createElement("div");
+  div.setAttribute("class", "fixed top-40 right-5 flex flex-col w-full max-w-xs");
+  document.body.appendChild(div);
+  toast.toastWrapper = div;
+})
+
+// 可以在这里初始化 stores 里的信息， 比如: 获取登录状态。
+const user = useUser();
+user.logined = false;
+
+getUserInfo().then(res => {
+  console.log(res);
+})
 
 </script>

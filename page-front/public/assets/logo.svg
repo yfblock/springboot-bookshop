@@ -1,0 +1,16 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 125 23" width="125" height="23">
+	<title>新建项目</title>
+	<defs>
+		<image  width="144" height="23" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJAAAAAXAQMAAADePVSbAAAAAXNSR0IB2cksfwAAAANQTFRF////p8QbyAAAAA5JREFUeJxjYBgFQw4AAAG1AAFSPO1MAAAAAElFTkSuQmCC"/>
+	</defs>
+	<style>
+		tspan { white-space:pre } 
+		.t0 { font-size: 23px;fill: #000000;font-weight: 700;font-family: "Roboto-Bold", "Roboto" } 
+		.t1 { font-size: 23px;fill: #ff0000;font-weight: 700;font-family: "Roboto-Bold", "Roboto" } 
+	</style>
+	<use id="Background" href="#img1" x="0" y="0"/>
+	<text id="NZPlatForm" style="transform: matrix(1,0,0,1,.102,19.898)" >
+		<tspan x="0" y="0" class="t0">N</tspan><tspan  y="0" class="t0">Z</tspan><tspan  y="0" class="t1">P</tspan><tspan  y="0" class="t1">l</tspan><tspan  y="0" class="t1">a</tspan><tspan  y="0" class="t1">t</tspan><tspan  y="0" class="t1">F</tspan><tspan  y="0" class="t1">o</tspan><tspan  y="0" class="t1">r</tspan><tspan  y="0" class="t1">m</tspan><tspan  y="0" class="t1">
+</tspan>
+	</text>
+</svg>

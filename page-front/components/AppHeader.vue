@@ -3,7 +3,7 @@
   <header class="py-4 shadow-sm bg-white">
     <div class="container flex items-center justify-between">
       <NuxtLink to="/">
-        <img src="/assets/images/logo.svg" alt="Logo" class="w-32">
+        <img src="/assets/logo.svg" alt="Logo" class="w-32">
       </NuxtLink>
 
       <div class="w-full max-w-xl relative flex">

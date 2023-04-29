@@ -29,15 +29,19 @@ public class UserController {
             @NotNull(message = "密码不能为空") String password
     ) throws SQLException {
         // 获取用户
+        System.out.println("request arguments match success");
         User user = userWrapper.getUserByName(username);
+        System.out.println("get user");
         // 用户不存在
         if(user == null) {
             return ResultCode.err(RepErrorCode.USER_NOT_FOUND);
         }
+        System.out.println("user not found");
         // 密码错误
         if(!DigestUtils.md5DigestAsHex(password.getBytes()).equals(user.getPassword())) {
             return ResultCode.err(RepErrorCode.USER_WRONG_PASSWORD);
         }
+        System.out.println("password error");
         // 登陆成功
         return ResultCode.ok("登录成功", user);
     }

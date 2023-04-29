@@ -13,12 +13,14 @@
                 邮箱
               </label>
               <input type="email" name="email" id="email"
+                v-model="formData.username"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="请输入用户名" required="">
             </div>
             <div>
               <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">密码</label>
               <input type="password" name="password" id="password" placeholder="••••••••"
+                v-model="formData.password"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required="">
             </div>
@@ -51,10 +53,38 @@
 
 <script setup lang="ts">
 import { useUser } from '~/stores/user';
+import { useToast } from '~/stores/toast';
+import { login as loginRequest } from '~/utils/requests';
+import { onMounted } from 'vue'
+
 const user = useUser();
+const toast = useToast();
+const router = useRouter();
+
+// 表单数据
+let formData = reactive({
+  username: '',
+  password: ''
+});
+
+let div: any;
+onMounted(() => {
+  div = document.createElement("div");
+  div.setAttribute("class", "fixed top-40 right-5 flex flex-col w-full max-w-xs");
+  document.body.appendChild(div);
+})
 
 const login = () => {
-  console.log('login')
-  user.login()
+  console.log(formData)
+  loginRequest(formData).then(data => {
+    if(data['status']) {
+      user.login()
+      toast.push('success', data['msg'], 2000);
+      router.push('/');
+    } else {
+      toast.push('danger', data['msg'], 2000);
+    }
+    console.log("response", data);
+  })
 }
 </script>
