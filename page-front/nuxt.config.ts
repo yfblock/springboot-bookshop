@@ -29,6 +29,6 @@ export default defineNuxtConfig({
         autoImports: ['defineStore', 'acceptHMRUpdate'],
     },
     app: {
-        baseURL: '/shop/'
-    }
+        baseURL: '/shop/',
+    },
 })

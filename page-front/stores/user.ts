@@ -7,7 +7,9 @@ export const useUser = defineStore('user', {
       fresh: false,
       userInfo: {
         username: '',
-        avatar: ''
+        avatar: '',
+        email: '',
+        phone: ''
       }
     }
   },

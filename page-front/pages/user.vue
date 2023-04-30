@@ -31,10 +31,13 @@
 
             <div class="mt-6 bg-white shadow rounded p-4 divide-y divide-gray-200 space-y-4 text-gray-600">
                 <div class="space-y-1 pl-8">
-                    <NuxtLink to="/user/profile" :class="route.name.endsWith('profile') ? 'text-primary': 'hover:text-primary'" class="relative block font-medium capitalize transition">
+                    <a href="#" class="relative text-black block font-medium capitalize transition">
                         <span class="absolute -left-8 top-0 text-base">
-                            <i class="fa-regular fa-address-card"></i>
+                            <i class="fa-solid fa-box-archive"></i>
                         </span>
+                        个人账户
+                    </a>
+                    <NuxtLink to="/user/profile" :class="route.name.endsWith('profile') ? 'text-primary': 'hover:text-primary'" class="relative block font-medium capitalize transition">
                         个人信息
                     </NuxtLink>
                     <NuxtLink to="/user/address" :class="route.name.endsWith('address') ? 'text-primary': 'hover:text-primary'" class="relative block capitalize transition">
