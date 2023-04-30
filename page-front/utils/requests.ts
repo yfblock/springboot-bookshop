@@ -1,6 +1,7 @@
 import { isNumberObject } from "util/types";
 
 const BASE_API_URL = 'http://localhost:8081/api'
+export const BASE_STATIC_URL = BASE_API_URL;
 
 async function request(url: string, data: any = {}) {
     return fetch(BASE_API_URL + url, {
@@ -52,5 +53,18 @@ export async function getUserInfo() {
 }
 
 export async function updateUserInfo(data: any) {
-    return request('/user/upate_userinfo', data);
+    return request('/user/update_userinfo', data);
+}
+
+export async function getAddresses() {
+    return request('/user/get_addresses');
+}
+
+export async function addAddress(formData: any) {
+    return request('/user/add_address', formData);
+}
+
+
+export async function deleteAddress(id: Number) {
+    return request('/user/delete_address', {id});
 }

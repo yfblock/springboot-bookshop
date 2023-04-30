@@ -18,7 +18,9 @@
         <div class="col-span-3">
             <div class="px-4 py-3 shadow flex items-center gap-4">
                 <div class="flex-shrink-0">
-                    <img src="../assets/images/avatar.png" alt="profile"
+                    <img v-if="user.userInfo.avatar" :src="BASE_STATIC_URL + user.userInfo.avatar" alt="profile"
+                        class="rounded-full w-14 h-14 border border-gray-200 p-1 object-cover">
+                    <img v-if="!user.userInfo.avatar" src="../assets/images/avatar.png" alt="profile"
                         class="rounded-full w-14 h-14 border border-gray-200 p-1 object-cover">
                 </div>
                 <div class="flex-grow">
@@ -104,7 +106,7 @@
 <script setup>
 import { useUser } from '~/stores/user';
 import { useToast } from '~/stores/toast';
-import { logout as userLogout } from '~/utils/requests';
+import { logout as userLogout, BASE_STATIC_URL } from '~/utils/requests';
 const router = useRouter();
 const route = useRoute();
 const user = useUser();
@@ -112,6 +114,8 @@ const toast = useToast();
 if (!user.logined) {
     router.push("/login");
 }
+
+console.log(user.userInfo.avatar);
 
 const logout = async () => {
     await userLogout();

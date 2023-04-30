@@ -3,6 +3,8 @@ package edu.hasust.zez.books.controllers;
 import edu.hasust.zez.books.RepErrorCode;
 import edu.hasust.zez.books.ResultCode;
 import edu.hasust.zez.books.entities.User;
+import edu.hasust.zez.books.entities.UserProfile;
+import edu.hasust.zez.books.entities.UserView;
 import edu.hasust.zez.books.wrappers.UserWrapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
@@ -23,8 +25,6 @@ public class UserController {
 
     @Resource
     UserWrapper userWrapper;
-    @Resource
-    HttpSession session;
 
     @RequestMapping("/login")
     @Validated
@@ -77,11 +77,10 @@ public class UserController {
         if(userId == null) {
             return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
         }
-        User user = userWrapper.getUserById(userId);
+        UserView user = userWrapper.getUserInfo(userId);
         if(user == null) {
             return ResultCode.err(RepErrorCode.USER_NOT_FOUND);
         }
-
         return ResultCode.ok("用户已登录", user);
     }
 
@@ -121,20 +120,87 @@ public class UserController {
     public ResultCode getUserInfo(
            @NotNull(message = "用户id不能为空") @Min(value = 0, message = "用户 id 不能小于 0") Integer id
     ) throws SQLException {
-        User user = userWrapper.getUserById(id);
+        UserView user = userWrapper.getUserInfo(id);
         if(user == null) {
             return ResultCode.err(RepErrorCode.USER_NOT_FOUND);
         }
         return ResultCode.ok("获取成功", user);
     }
 
-    @RequestMapping("/update_user_info")
-    public ResultCode updateUserInfo(@RequestBody User user, HttpSession session) throws SQLException {
-//        User user = userWrapper.getUserById(id);
-//        if(user == null) {
-//            return ResultCode.err(RepErrorCode.USER_NOT_FOUND);
-//        }
-//        return ResultCode.ok("获取成功", user);
+    @RequestMapping("/update_userinfo")
+    @Validated
+    public ResultCode updateUserInfo(
+            @NotNull String email,
+            @NotNull String phone,
+            @NotNull String avatar,
+            HttpSession session
+    ) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        User user = userWrapper.getUserById(userId);
+        if(user == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_FOUND);
+        }
+        UserProfile profile = userWrapper.getUserProfile(userId);
+        if(profile == null) {
+            userWrapper.addUserInfo(phone, email, avatar);
+        } else {
+            userWrapper.updateUserInfo(phone, email, avatar, userId);
+        }
         return ResultCode.ok("修改成功", null);
+    }
+
+    @RequestMapping("get_addresses")
+    public ResultCode getAddress(HttpSession session) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        User user = userWrapper.getUserById(userId);
+        if(user == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_FOUND);
+        }
+        return ResultCode.ok("获取成功", userWrapper.getAddresses(userId));
+    }
+
+    @RequestMapping("/add_address")
+    @Validated
+    public ResultCode addAddress(
+            @NotNull String title,
+            @NotNull String people,
+            @NotNull String phone,
+            @NotNull String address,
+            HttpSession session
+    ) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        User user = userWrapper.getUserById(userId);
+        if(user == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_FOUND);
+        }
+        userWrapper.addAddress(title, phone, people, address, userId);
+        return ResultCode.ok("添加成功", null);
+    }
+
+    @RequestMapping("/delete_address")
+    @Validated
+    public ResultCode deleteAddress(
+            @NotNull @Min(value = 0, message = "地址 id 不能小于 0") Integer id,
+            HttpSession session
+    ) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        User user = userWrapper.getUserById(userId);
+        if(user == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_FOUND);
+        }
+        userWrapper.deleteAddressById(id, userId);
+        return ResultCode.ok("删除成功", userWrapper.getAddresses(userId));
     }
 }

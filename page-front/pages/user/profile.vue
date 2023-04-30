@@ -7,35 +7,12 @@
         <div class="space-y-4">
             <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <label for="first">名</label>
-                    <input type="text" name="first" id="first" class="input-box">
-                </div>
-                <div>
-                    <label for="last">姓</label>
-                    <input type="text" name="last" id="last" class="input-box">
-                </div>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label for="birthday">出生日期</label>
-                    <input type="date" name="birthday" id="birthday" class="input-box">
-                </div>
-                <div>
-                    <label for="gender">性别</label>
-                    <select name="gender" id="gender" class="input-box">
-                        <option value="male">男</option>
-                        <option value="female">女</option>
-                    </select>
-                </div>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div>
                     <label for="email">邮箱</label>
-                    <input type="email" name="email" id="email" class="input-box">
+                    <input type="email" name="email" id="email" class="input-box" v-model="formData.email">
                 </div>
                 <div>
                     <label for="phone">手机号</label>
-                    <input type="text" name="phone" id="phone" class="input-box">
+                    <input type="text" name="phone" id="phone" class="input-box" v-model="formData.phone">
                 </div>
             </div>
 
@@ -67,13 +44,13 @@
 
 <script setup>
 import { useToast } from '~/stores/toast';
+import { useUser } from '~/stores/user';
+
+const user = useUser();
+
 const formData = {
-    firstName: '',
-    lastName: '',
-    birthday: '',
-    gender: '',
-    email: '',
-    phone: ''
+    email: user.userInfo['email'],
+    phone: user.userInfo['phone']
 }
 
 let file = ref(null)
@@ -98,9 +75,24 @@ async function submit() {
         return;
     }
     const newFormData = {
-        avatar: uploadResult['data'],
+        avatar: uploadResult['data'] ? uploadResult['data'].replace(BASE_STATIC_URL, ''): user.userInfo['avatar'],
         ...formData
     };
-    
+
+    updateUserInfo(newFormData).then(res => {
+        if(res) {
+            toast.push(res['status'] ? 'success' : 'danger', res['msg'], 2000);
+            if(res['status']) {
+                user.updateLogin({
+                    email: newFormData.email,
+                    phone: newFormData.phone,
+                    avatar: newFormData.avatar,
+                    ...user.userInfo
+                });
+            }
+        } else {
+            toast.push('danger', '网络异常', 2000);
+        }
+    });
 }
 </script>

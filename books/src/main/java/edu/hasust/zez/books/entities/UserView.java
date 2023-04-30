@@ -10,9 +10,12 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class UserView {
     Integer id;
     String username;
     @JsonIgnore
     String password;
+    String avatar;
+    String email;
+    String phone;
 }

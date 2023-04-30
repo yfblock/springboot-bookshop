@@ -6,7 +6,8 @@ export const useUser = defineStore('user', {
       logined: false,
       fresh: false,
       userInfo: {
-        username: ''
+        username: '',
+        avatar: ''
       }
     }
   },
@@ -18,6 +19,7 @@ export const useUser = defineStore('user', {
       this.userInfo = userInfo;
     },
     updateLogin(userInfo: any) {
+      userInfo['avatar'] = userInfo['avatar'];
       this.logined = true;
       this.userInfo = userInfo;
       this.fresh = true;

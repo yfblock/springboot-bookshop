@@ -32,18 +32,18 @@ public class FileController {
         String filePath="";
         if (!folder.isDirectory()) {
             folder.mkdirs();
-            String oldName = uploadFile.getOriginalFilename();
-            String newName = UUID.randomUUID().toString() +
-                    oldName.substring(oldName.lastIndexOf("."), oldName.length());
-            try {
-                uploadFile.transferTo(new File(folder, newName));
-                filePath = req.getScheme() + "://" + req.getServerName() + ":" +
-                        req.getServerPort() + "/api/uploadFile/" + format + newName;
+        }
+        String oldName = uploadFile.getOriginalFilename();
+        String newName = UUID.randomUUID().toString() +
+                oldName.substring(oldName.lastIndexOf("."), oldName.length());
+        try {
+            uploadFile.transferTo(new File(folder, newName));
+            filePath = req.getScheme() + "://" + req.getServerName() + ":" +
+                    req.getServerPort() + "/api/uploadFile/" + format + newName;
 
-            } catch (IOException e) {
-                e.printStackTrace();
-                return ResultCode.err(RepErrorCode.FILE_UPLOAD_FAILED);
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResultCode.err(RepErrorCode.FILE_UPLOAD_FAILED);
         }
         return ResultCode.ok("上传成功", filePath);
     }
