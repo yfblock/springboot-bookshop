@@ -18,7 +18,7 @@
 
       <div class="flex items-center space-x-4">
         <template v-if="user.logined">
-          <a href="#" class="text-center text-gray-700 hover:text-primary transition relative">
+          <NuxtLink to="#" class="text-center text-gray-700 hover:text-primary transition relative">
             <div class="text-2xl">
               <i class="icon icon-cart"></i>
             </div>
@@ -26,18 +26,17 @@
             <div
               class="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
               2</div>
-          </a>
-          <NuxtLink to="/login" class="text-center text-gray-700 hover:text-primary transition relative">
+          </NuxtLink>
+          <NuxtLink to="/user/profile" class="text-center text-gray-700 hover:text-primary transition relative">
             <div class="text-2xl">
               <i class="icon icon-people"></i>
             </div>
-            <div class="text-xs leading-3">Account</div>
+            <div class="text-xs leading-3">{{ user.userInfo['username'] }}</div>
           </NuxtLink>
         </template>
-        <template v-else>
-          <NuxtLink href="/login" class="text-black rounded-sm hover:bg-gray-300 py-2 px-2.5 transition whitespace-nowrap">登陆</NuxtLink>
-          <NuxtLink href="/register" class="text-black rounded-sm hover:bg-gray-300 py-2 px-2.5 transition whitespace-nowrap">注册</NuxtLink>
-
+        <template v-if="!user.logined">
+          <NuxtLink to="/login" class="text-black rounded-sm hover:bg-gray-300 py-2 px-2.5 transition whitespace-nowrap">登陆</NuxtLink>
+          <NuxtLink to="/register" class="text-black rounded-sm hover:bg-gray-300 py-2 px-2.5 transition whitespace-nowrap">注册</NuxtLink>
         </template>
       </div>
     </div>
