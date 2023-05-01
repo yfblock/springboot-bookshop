@@ -34,4 +34,17 @@ public interface GoodWrapper {
     @Select("select * from good where owner = {0}")
     ArrayList<Good> getUserGoods(Integer userId) throws SQLException;
 
+    @Find("select * from good where id = {0}")
+    Good getGoodById(Integer id) throws SQLException;
+
+    @Delete("delete from good where id = {0} and owner = {1}")
+    void deleteUserGood(Integer id, Integer userId) throws SQLException;
+    @Delete("delete from good where id = {0}")
+    void deleteGood(Integer id) throws SQLException;
+    @Select("select * from good")
+    ArrayList<Good> getAllGoods() throws SQLException;
+    @Select("select * from good where status = 0 and approved = 1")
+    ArrayList<Good> getAllAvailableGoods() throws SQLException;
+    @Update("update good set approved={1} where id = {0}")
+    void updateGoodApproved(Integer id, Integer approved) throws SQLException;
 }

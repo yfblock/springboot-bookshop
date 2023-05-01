@@ -116,3 +116,24 @@ export async function addGood(formData: any) {
 export async function getUserGoods() {
     return request('/good/get_user_goods');
 }
+
+export async function deleteUserGood(id: number) {
+    return request('/good/delete_user_good', {id});
+}
+
+export async function deleteGood(id: number) {
+    return request('/good/delete_good', {id});
+}
+
+export async function getAvailableGoods() {
+    return request('/good/get_available_goods');
+}
+
+export async function getAllGoods() {
+    return request('/good/get_all_goods');
+}
+
+export async function updateGoodApproved(id: number, approved: number) {
+    return request('/good/change_good_approved', {id, approved});
+}
+

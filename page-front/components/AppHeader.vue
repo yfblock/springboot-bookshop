@@ -11,33 +11,25 @@
           <i class="icon icon-search"></i>
         </span>
         <input type="text" name="search" id="search"
+          v-model="searchData"
           class="w-full border border-primary border-r-0 pl-8 py-3 pr-3 rounded-l-md focus:outline-none"
           placeholder="请输入需要搜索的内容" />
-        <button class="bg-primary border border-primary text-white px-8 rounded-r-md hover:bg-transparent hover:text-primary transition whitespace-nowrap">搜索</button>
+        <button @click="search" class="bg-primary border border-primary text-white px-8 rounded-r-md hover:bg-transparent hover:text-primary transition whitespace-nowrap">搜索</button>
       </div>
 
       <div class="flex items-center space-x-4">
-        <template v-if="user.logined">
-          <NuxtLink to="#" class="text-center text-gray-700 hover:text-primary transition relative">
-            <div class="text-2xl">
-              <i class="icon icon-cart"></i>
-            </div>
-            <div class="text-xs leading-3">Cart</div>
-            <div
-              class="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
-              2</div>
-          </NuxtLink>
-          <NuxtLink to="/user/profile" class="text-center text-gray-700 hover:text-primary transition relative">
-            <div class="text-2xl">
-              <i class="icon icon-people"></i>
-            </div>
-            <div class="text-xs leading-3">{{ user.userInfo['username'] }}</div>
-          </NuxtLink>
-        </template>
-        <template v-if="!user.logined">
+        <div v-if="user.logined">
+            <NuxtLink to="/user/profile" class="text-center text-gray-700 hover:text-primary transition relative">
+              <div class="text-2xl">
+                <i class="icon icon-people"></i>
+              </div>
+              <div class="text-xs leading-3">{{ user.userInfo['username'] }}</div>
+            </NuxtLink>
+        </div>
+        <div v-else>
           <NuxtLink to="/login" class="text-black rounded-sm hover:bg-gray-300 py-2 px-2.5 transition whitespace-nowrap">登陆</NuxtLink>
           <NuxtLink to="/register" class="text-black rounded-sm hover:bg-gray-300 py-2 px-2.5 transition whitespace-nowrap">注册</NuxtLink>
-        </template>
+        </div>
       </div>
     </div>
   </header>
@@ -80,7 +72,9 @@ import { useToast } from '~/stores/toast';
 
 const user = useUser();
 const toast = useToast();
+const router = useRouter();
 
+let searchData = "";
 let goodTypes = ref([]);
 
 async function fetchGoodTypes() {
@@ -89,6 +83,24 @@ async function fetchGoodTypes() {
         console.log(res['data'])
         goodTypes.value = res['data'];
     }
+}
+
+async function search() {
+  // await navigateTo({
+  //   path: '/shop_list',
+  //   query: {
+  //     search: searchData
+  //   },
+  //   replace: true
+  // })
+  router.push({
+    path: '/shop_list',
+    query: {
+      search: searchData
+    },
+    force: true,
+    replace: true
+  })
 }
 
 await fetchGoodTypes();

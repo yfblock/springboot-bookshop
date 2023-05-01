@@ -2,6 +2,7 @@ package edu.hasust.zez.books.controllers;
 
 import edu.hasust.zez.books.RepErrorCode;
 import edu.hasust.zez.books.ResultCode;
+import edu.hasust.zez.books.entities.Good;
 import edu.hasust.zez.books.entities.GoodType;
 import edu.hasust.zez.books.entities.UserRole;
 import edu.hasust.zez.books.entities.UserView;
@@ -122,7 +123,100 @@ public class GoodController {
         if(user == null) {
             return ResultCode.err(RepErrorCode.USER_NOT_FOUND);
         }
-        return ResultCode.ok("删除成功", goodWrapper.getUserGoods(userId));
+        return ResultCode.ok("获取成功", goodWrapper.getUserGoods(userId));
+    }
+
+    @RequestMapping("/delete_user_good")
+    @Validated
+    public ResultCode deleteUserGood(
+            @NotNull @Min(value = 0, message = "商品 id 不能小于 0") Integer id,
+            HttpSession session
+    ) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        UserView user = userWrapper.getUserInfo(userId);
+        if(user == null) {
+            return ResultCode.err(RepErrorCode.USER_LEVEL_ERROR);
+        }
+        Good good = goodWrapper.getGoodById(id);
+        if(good.getStatus() != 0) {
+            return ResultCode.err(RepErrorCode.GOOD_STATUS_NOT_DELETE);
+        }
+        goodWrapper.deleteUserGood(id, userId);
+        return ResultCode.ok("删除成功", null);
+    }
+
+    @RequestMapping("/delete_good")
+    @Validated
+    public ResultCode deleteGood(
+            @NotNull @Min(value = 0, message = "商品 id 不能小于 0") Integer id,
+            HttpSession session
+    ) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        UserView user = userWrapper.getUserInfo(userId);
+        if(user == null || user.getLevel() <= 90) {
+            return ResultCode.err(RepErrorCode.USER_LEVEL_ERROR);
+        }
+        Good good = goodWrapper.getGoodById(id);
+        if(good==null) {
+            return ResultCode.err(RepErrorCode.GOOD_NOT_FOUND);
+        }
+        goodWrapper.deleteGood(id);
+        logWrapper.addSystemLog(user.getUsername() + " 删除商品 " + good.getName(), user.getId());
+        return ResultCode.ok("删除成功", null);
+    }
+
+    @RequestMapping("/get_available_goods")
+    @Validated
+    public ResultCode getAvailableGoods() throws SQLException {
+        return ResultCode.ok("获取成功", goodWrapper.getAllAvailableGoods());
+    }
+
+    @RequestMapping("/get_all_goods")
+    @Validated
+    public ResultCode getAllGoods(HttpSession session) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        UserView user = userWrapper.getUserInfo(userId);
+        if(user == null || user.getLevel() <= 90) {
+            return ResultCode.err(RepErrorCode.USER_LEVEL_ERROR);
+        }
+        return ResultCode.ok("获取成功", goodWrapper.getAllGoods());
+    }
+
+    @RequestMapping("/change_good_approved")
+    @Validated
+    public ResultCode ChangeGoodApprove(
+            @NotNull @Min(value = 0, message = "商品 id 不能小于 0") Integer id,
+            @NotNull @Min(value = 0, message = "商品 id 不能小于 0") Integer approved,
+            HttpSession session
+    ) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        UserView user = userWrapper.getUserInfo(userId);
+        if(user == null || user.getLevel() <= 90) {
+            return ResultCode.err(RepErrorCode.USER_LEVEL_ERROR);
+        }
+        Good good = goodWrapper.getGoodById(id);
+        if(good == null) {
+            return ResultCode.err(RepErrorCode.GOOD_NOT_FOUND);
+        }
+        goodWrapper.updateGoodApproved(id, approved);
+        if(approved == 0) {
+            logWrapper.addSystemLog(user.getUsername() + " 通过商品 " + good.getName(), user.getId());
+        } else {
+            logWrapper.addSystemLog(user.getUsername() + " 下架商品 " + good.getName(), user.getId());
+        }
+        return ResultCode.ok("更改成功", null);
     }
 
 }

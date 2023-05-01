@@ -17,8 +17,10 @@ public enum RepErrorCode {
     USER_ROLE_MODIFY_SELF("不能修改当前账户用户组"),
     USER_ROLE_DELETE_NESTED("不能删除内置用户组"),
     USER_ROLE_ALREADY_EXISTS("用户组已经存在"),
+    GOOD_NOT_FOUND("商品不存在"),
     GOOD_TYPE_ALREADY_EXISTS("商品类别已经存在"),
     GOOD_TYPE_DELETE_NESTED("不能删除内置商品类别"),
+    GOOD_STATUS_NOT_DELETE("当前商品状态无法删除"),
     ;
     private final String errMsg;
 
