@@ -59,11 +59,9 @@ let goodTypes = ref<any>([]);
 let selected = ref<number[]>([]);
 const route = useRoute();
 
-console.log("route query", route.query)
-let searchData = ref("");
-
-if(route.hash && route.hash.length > 1){
-    searchData.value = route.hash.substring(1);
+let searchData = ref<any>("");
+if(route.query.search) {
+    searchData.value = route.query.search;
 }
 
 const toast = useToast();
@@ -95,6 +93,11 @@ async function fetchGoods() {
 async function onChange() {
     await updateSearch();
 }
+
+onBeforeRouteUpdate(async (to) => {
+    searchData.value = to.query.search;
+    await updateSearch();
+})
 
 await fetchGoodTypes();
 await fetchGoods();

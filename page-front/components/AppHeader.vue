@@ -86,19 +86,11 @@ async function fetchGoodTypes() {
 }
 
 async function search() {
-  // await navigateTo({
-  //   path: '/shop_list',
-  //   query: {
-  //     search: searchData
-  //   },
-  //   replace: true
-  // })
-  router.push({
+  await navigateTo({
     path: '/shop_list',
     query: {
       search: searchData
     },
-    force: true,
     replace: true
   })
 }
