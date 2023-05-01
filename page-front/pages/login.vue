@@ -73,7 +73,6 @@ onMounted(() => {
 })
 
 const login = () => {
-  console.log(formData)
   loginRequest(formData).then(data => {
     if(data['status']) {
       user.logined = true;
@@ -83,7 +82,6 @@ const login = () => {
     } else {
       toast.push('danger', data['msg'], 2000);
     }
-    console.log("response", data);
   })
 }
 </script>

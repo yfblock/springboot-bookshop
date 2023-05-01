@@ -65,8 +65,11 @@ import {
   initTabs, 
   initTooltips } from 'flowbite'
 import { useToast } from './stores/toast';
+import { useUser } from '~/stores/user';
+import { getUserInfo } from '~/utils/requests';
 
 const toast = useToast();
+const user = useUser();
 
 // initialize components based on data attribute selectors
 onMounted(() => {
@@ -87,4 +90,12 @@ onMounted(() => {
   document.body.appendChild(div);
   toast.toastWrapper = div;
 })
+
+// 可以在这里初始化 stores 里的信息， 比如: 获取登录状态。
+
+let res = await getUserInfo();
+
+if(res['status']) {
+  user.updateLogin(res['data']);
+}
 </script>

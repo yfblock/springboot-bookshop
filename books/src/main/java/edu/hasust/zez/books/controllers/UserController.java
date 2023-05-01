@@ -4,10 +4,13 @@ import edu.hasust.zez.books.RepErrorCode;
 import edu.hasust.zez.books.ResultCode;
 import edu.hasust.zez.books.entities.User;
 import edu.hasust.zez.books.entities.UserProfile;
+import edu.hasust.zez.books.entities.UserRole;
 import edu.hasust.zez.books.entities.UserView;
+import edu.hasust.zez.books.wrappers.LogWrapper;
 import edu.hasust.zez.books.wrappers.UserWrapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.util.DigestUtils;
@@ -25,6 +28,8 @@ public class UserController {
 
     @Resource
     UserWrapper userWrapper;
+    @Resource
+    LogWrapper logWrapper;
 
     @RequestMapping("/login")
     @Validated
@@ -45,7 +50,7 @@ public class UserController {
         }
         session.setAttribute("userId", user.getId());
         // 登陆成功
-        return ResultCode.ok("登录成功", user);
+        return ResultCode.ok("登录成功", userWrapper.getUserInfo(user.getId()));
     }
 
     @RequestMapping("/register")
@@ -202,5 +207,135 @@ public class UserController {
         }
         userWrapper.deleteAddressById(id, userId);
         return ResultCode.ok("删除成功", userWrapper.getAddresses(userId));
+    }
+
+    @RequestMapping("/get_user_list")
+    public ResultCode getUserList(HttpSession session) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        UserView user = userWrapper.getUserInfo(userId);
+        if(user == null || user.getLevel() <= 90) {
+            return ResultCode.err(RepErrorCode.USER_LEVEL_ERROR);
+        }
+        return ResultCode.ok("获取成功", userWrapper.getUsers());
+    }
+
+    @RequestMapping("/delete_user")
+    @Validated
+    public ResultCode deleteUser(
+            @NotNull @Min(value = 0, message = "地址 id 不能小于 0") Integer id,
+            HttpSession session
+    ) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        UserView user = userWrapper.getUserInfo(userId);
+        if(user == null || user.getLevel() <= 90) {
+            return ResultCode.err(RepErrorCode.USER_LEVEL_ERROR);
+        }
+        if(id.equals(userId)) {
+            return ResultCode.err(RepErrorCode.USER_DELETE_SELF_ERROR);
+        }
+        User dUser = userWrapper.getUserById(id);
+        userWrapper.deleteUserById(id);
+        logWrapper.addSystemLog(user.getUsername() + " 删除用户 " + dUser.getUsername(), user.getId());
+
+        return ResultCode.ok("删除成功", null);
+    }
+
+    @RequestMapping("/get_user_groups")
+    @Validated
+    public ResultCode getUserGroups(
+            HttpSession session
+    ) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        UserView user = userWrapper.getUserInfo(userId);
+        if(user == null || user.getLevel() <= 90) {
+            return ResultCode.err(RepErrorCode.USER_LEVEL_ERROR);
+        }
+        return ResultCode.ok("删除成功", userWrapper.getUserRoles());
+    }
+
+    @RequestMapping("/update_user_group")
+    @Validated
+    public ResultCode updateUserGroup(
+            @NotNull @Min(value = 0, message = "用户 id 不能小于 0") Integer id,
+            @NotNull @Min(value = 0, message = "group id 不能小于 0") Integer group,
+            HttpSession session
+    ) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        UserView user = userWrapper.getUserInfo(userId);
+        if(user == null || user.getLevel() <= 90) {
+            return ResultCode.err(RepErrorCode.USER_LEVEL_ERROR);
+        }
+        if(userId.equals(id)) {
+            return ResultCode.err(RepErrorCode.USER_ROLE_MODIFY_SELF);
+        }
+        User findUser = userWrapper.getUserById(id);
+        if(findUser == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_FOUND);
+        }
+        UserRole userRole = userWrapper.getRoleById(group);
+        if(userRole == null) {
+            return ResultCode.err(RepErrorCode.USER_ROLE_NOT_FOUND);
+        }
+        userWrapper.updateUserRoleById(id, group);
+        logWrapper.addSystemLog(user.getUsername() + " 修改 " + findUser.getUsername() + " 用户组为 " + userRole.getGroup(), user.getId());
+        return ResultCode.ok("删除成功", userWrapper.getUserRoles());
+    }
+
+    @RequestMapping("/delete_user_group")
+    @Validated
+    public ResultCode deleteUserGroup(
+            @NotNull @Min(value = 0, message = "用户组 id 不能小于 0") Integer id,
+            HttpSession session
+    ) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        UserView user = userWrapper.getUserInfo(userId);
+        if(user == null || user.getLevel() <= 90) {
+            return ResultCode.err(RepErrorCode.USER_LEVEL_ERROR);
+        }
+        if(id <= 2) {
+            return ResultCode.err(RepErrorCode.USER_ROLE_DELETE_NESTED);
+        }
+        UserRole userRole = userWrapper.getRoleById(id);
+        userWrapper.deleteRoleById(id);
+        logWrapper.addSystemLog(user.getUsername() + " 删除用户组 " + userRole.getGroup(), user.getId());
+        return ResultCode.ok("删除成功", null);
+    }
+
+    @RequestMapping("/add_user_group")
+    @Validated
+    public ResultCode addUserRole(
+            @NotNull String group,
+            @NotNull @Min(value = 0, message = "权限不能小于 0") @Max( value = 99, message = "权限不能大于 99") Integer level,
+            HttpSession session
+    ) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        UserView user = userWrapper.getUserInfo(userId);
+        if(user == null || user.getLevel() <= 90) {
+            return ResultCode.err(RepErrorCode.USER_LEVEL_ERROR);
+        }
+        if(userWrapper.getRoleByName(group) != null) {
+            return ResultCode.err(RepErrorCode.USER_ROLE_ALREADY_EXISTS);
+        }
+        userWrapper.addRole(group, level);
+        logWrapper.addSystemLog(user.getUsername() + " 添加用户组 " + group, user.getId());
+        return ResultCode.ok("添加成功", null);
     }
 }

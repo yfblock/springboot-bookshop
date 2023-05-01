@@ -7,8 +7,8 @@
       </h1>
       <p></p>
       <div class="mt-12">
-        <a href="#" class="bg-primary border border-primary text-white px-8 py-3 font-medium 
-                    rounded-md hover:bg-transparent hover:text-primary">现在购买</a>
+        <NuxtLink to="/shop_list" class="bg-primary border border-primary text-white px-8 py-3 font-medium 
+                    rounded-md hover:bg-transparent hover:text-primary">现在购买</NuxtLink>
       </div>
     </div>
   </div>

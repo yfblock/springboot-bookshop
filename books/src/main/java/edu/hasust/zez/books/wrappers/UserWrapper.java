@@ -1,9 +1,6 @@
 package edu.hasust.zez.books.wrappers;
 
-import edu.hasust.zez.books.entities.Address;
-import edu.hasust.zez.books.entities.User;
-import edu.hasust.zez.books.entities.UserProfile;
-import edu.hasust.zez.books.entities.UserView;
+import edu.hasust.zez.books.entities.*;
 import io.github.yfblock.yfSql.Annotation.*;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +12,8 @@ import java.util.List;
 @DataRunner
 @Repository
 public interface UserWrapper {
-    @Select("select * from user")
-    List<User> getUsers() throws SQLException;
+    @Select("select * from user_view")
+    List<UserView> getUsers() throws SQLException;
 
     @Find("select * from user where username = '{0}'")
     User getUserByName(String username) throws SQLException;
@@ -50,4 +47,24 @@ public interface UserWrapper {
 
     @Delete("delete from user_addr where id = {0} and user_id = {1} ")
     void deleteAddressById(Integer id, Integer userId) throws SQLException;
+
+    @Delete("delete from user where id = {0}")
+    void deleteUserById(Integer id) throws SQLException;
+
+    @Select("select * from user_role")
+    ArrayList<UserRole> getUserRoles() throws SQLException;
+
+    @Find("select * from user_role where id = {0}")
+    UserRole getRoleById(Integer id) throws SQLException;
+    @Find("select * from user_role where `group` = '{0}'")
+    UserRole getRoleByName(String groupName) throws SQLException;
+
+    @Delete("delete from user_role where id = {0}")
+    void deleteRoleById(Integer id) throws SQLException;
+
+    @Insert("insert user_role (`group`, level) VALUES ('{0}', {1})")
+    void addRole(String groupName, Integer level) throws SQLException;
+
+    @Update("update user set `group` = {1} where id = {0}")
+    void updateUserRoleById(Integer id, Integer group) throws SQLException;
 }

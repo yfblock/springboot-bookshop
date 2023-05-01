@@ -8,8 +8,7 @@
         <div class="flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
           <ul class="pb-2 space-y-2">
             <li>
-              <NuxtLink to="/admin"
-                :class="route.name == 'admin' ?'bg-gray-100':''"
+              <NuxtLink to="/admin" :class="route.name == 'admin' ? 'bg-gray-100' : ''"
                 class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700">
                 <svg
                   class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -21,9 +20,8 @@
               </NuxtLink>
             </li>
             <li>
-              <button type="button"
-                class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
-                aria-controls="dropdown-crud" data-collapse-toggle="dropdown-crud">
+              <button type="button" @click="toggleOpen('crud')"
+                class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700">
                 <svg
                   class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                   fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -39,18 +37,44 @@
                     clip-rule="evenodd"></path>
                 </svg>
               </button>
-              <ul id="dropdown-crud" class="space-y-2 py-2 hidden">
-                <li>
-                  <NuxtLink to="/admin/products"
-                    :class="route.name == 'admin-products'? 'bg-gray-100 ': ''"
-                    class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700 dark:bg-gray-700">商品列表</NuxtLink>
-                </li>
-                <li>
-                  <NuxtLink to="/admin/users"
-                    :class="route.name == 'admin-users'? 'bg-gray-100 ': ''"
-                    class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700 dark:bg-gray-700">用户列表</NuxtLink>
-                </li>
-              </ul>
+              <div v-show="openlist == 'crud'">
+                <ul class="space-y-2 py-2">
+                  <li>
+                    <NuxtLink to="/admin/products" :class="route.name == 'admin-products' ? 'bg-gray-100 ' : ''"
+                      class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700 dark:bg-gray-700">
+                      商品列表</NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/admin/types" :class="route.name == 'admin-types' ? 'bg-gray-100 ' : ''"
+                      class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700 dark:bg-gray-700">
+                      商品类别</NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/admin/users" :class="route.name == 'admin-users' ? 'bg-gray-100 ' : ''"
+                      class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700 dark:bg-gray-700">
+                      用户列表</NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/admin/roles" :class="route.name == 'admin-roles' ? 'bg-gray-100 ' : ''"
+                      class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700 dark:bg-gray-700">
+                      用户组</NuxtLink>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <NuxtLink to="/admin/logs" :class="route.name == 'admin-logs' ? 'bg-gray-100' : ''"
+                class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700">
+                <svg
+                  class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                  fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                  <path fill-rule="evenodd"
+                    d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                <span class="ml-3" sidebar-toggle-item>系统日志</span>
+              </NuxtLink>
             </li>
           </ul>
           <div class="pt-2 space-y-2">
@@ -74,7 +98,23 @@
   <div class="fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90" id="sidebarBackdrop"></div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { Dropdown, initDropdowns } from 'flowbite';
+
 const route = useRoute();
 console.log(route.name)
+
+onMounted(() => {
+  initDropdowns();
+})
+
+let openlist = ref("");
+
+const toggleOpen = (name: string) => {
+  if (openlist.value == name) {
+    openlist.value = "";
+  } else {
+    openlist.value = name;
+  }
+}
 </script>

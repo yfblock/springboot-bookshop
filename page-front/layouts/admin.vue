@@ -16,7 +16,16 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-    middleware: ['adminerror']
-})
+import { useUser } from '~/stores/user';
+import { useToast } from '~/stores/toast';
+import { logout as userLogout, BASE_STATIC_URL } from '~/utils/requests';
+const router = useRouter();
+const route = useRoute();
+const user = useUser();
+const toast = useToast();
+if (!user.logined) {
+    router.push("/login");
+}
+
+console.log(user.userInfo.avatar);
 </script>

@@ -68,3 +68,51 @@ export async function addAddress(formData: any) {
 export async function deleteAddress(id: Number) {
     return request('/user/delete_address', {id});
 }
+
+export async function getUserList() {
+    return request('/user/get_user_list');
+}
+
+export async function deleteUser(id: number) {
+    return request('/user/delete_user', {id});
+}
+
+export async function getUserGroups() {
+    return request('/user/get_user_groups');
+}
+
+export async function updateUserGroup(id: number, group: number) {
+    return request('/user/update_user_group', {id, group});
+}
+
+export async function getSystemLogs() {
+    return request('/log/get_logs');
+}
+
+export async function addUserGroup(formData: any) {
+    return request('/user/add_user_group', formData);
+}
+
+export async function deleteUserGroup(id: number) {
+    return request('/user/delete_user_group', {id});
+}
+
+export async function getGoodTypes() {
+    return request('/good/get_good_types');
+}
+
+export async function deleteGoodType(id: number) {
+    return request('/good/delete_good_type', {id});
+}
+
+export async function addGoodType(formData: any) {
+    return request('/good/add_good_type', formData);
+}
+
+export async function addGood(formData: any) {
+    return request('/good/add_good', formData);
+}
+
+export async function getUserGoods() {
+    return request('/good/get_user_goods');
+}

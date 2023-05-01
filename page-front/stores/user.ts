@@ -9,7 +9,8 @@ export const useUser = defineStore('user', {
         username: '',
         avatar: '',
         email: '',
-        phone: ''
+        phone: '',
+        level: 0
       }
     }
   },
@@ -22,6 +23,7 @@ export const useUser = defineStore('user', {
     },
     updateLogin(userInfo: any) {
       userInfo['avatar'] = userInfo['avatar'];
+      console.log(userInfo['avatar']);
       this.logined = true;
       this.userInfo = userInfo;
       this.fresh = true;

@@ -1,6 +1,6 @@
 <template>
     <!-- breadcrumb -->
-    <div class="container py-4 flex items-center gap-3">
+    <!-- <div class="container py-4 flex items-center gap-3">
         <a href="../index.html" class="text-primary text-base">
             <i class="fa-solid fa-house"></i>
         </a>
@@ -8,7 +8,7 @@
             <i class="fa-solid fa-chevron-right"></i>
         </span>
         <p class="text-gray-600 font-medium">用户中心</p>
-    </div>
+    </div> -->
     <!-- ./breadcrumb -->
 
     <!-- account wrapper -->
@@ -31,7 +31,7 @@
 
             <div class="mt-6 bg-white shadow rounded p-4 divide-y divide-gray-200 space-y-4 text-gray-600">
                 <div class="space-y-1 pl-8">
-                    <a href="#" class="relative text-black block font-medium capitalize transition">
+                    <a href="#" class="relative text-black block font-medium capitalize transition text-lg">
                         <span class="absolute -left-8 top-0 text-base">
                             <i class="fa-solid fa-box-archive"></i>
                         </span>
@@ -47,53 +47,42 @@
                         更改密码
                     </NuxtLink>
                 </div>
-
+                
                 <div class="space-y-1 pl-8 pt-4">
-                    <a href="#" class="relative hover:text-primary block font-medium capitalize transition">
+                    <a href="#" class="relative text-black block font-medium capitalize transition text-lg">
                         <span class="absolute -left-8 top-0 text-base">
                             <i class="fa-solid fa-box-archive"></i>
                         </span>
-                        My order history
+                        商品管理
                     </a>
-                    <a href="#" class="relative hover:text-primary block capitalize transition">
-                        My returns
-                    </a>
-                    <a href="#" class="relative hover:text-primary block capitalize transition">
-                        My Cancellations
-                    </a>
-                    <a href="#" class="relative hover:text-primary block capitalize transition">
-                        My reviews
-                    </a>
+                    <NuxtLink to="/user/publish" :class="route.name.endsWith('publish') ? 'text-primary': 'hover:text-primary'" class="relative block font-medium capitalize transition">
+                        发布商品
+                    </NuxtLink>
+                    <NuxtLink to="/user/mygood" :class="route.name.endsWith('mygood') ? 'text-primary': 'hover:text-primary'" class="relative block capitalize transition">
+                        我的商品
+                    </NuxtLink>
+                    <NuxtLink to="/user/mybuy" :class="route.name.endsWith('mybuy') ? 'text-primary': 'hover:text-primary'" class="relative block capitalize transition">
+                        我购买的
+                    </NuxtLink>
                 </div>
 
                 <div class="space-y-1 pl-8 pt-4">
-                    <a href="#" class="relative hover:text-primary block font-medium capitalize transition">
+                    <a href="#" class="relative text-black block font-medium capitalize transition text-lg">
                         <span class="absolute -left-8 top-0 text-base">
-                            <i class="fa-regular fa-credit-card"></i>
+                            <i class="fa-solid fa-box-archive"></i>
                         </span>
-                        Payment methods
+                        账号控制
                     </a>
-                    <a href="#" class="relative hover:text-primary block capitalize transition">
-                        voucher
-                    </a>
-                </div>
-
-                <div class="space-y-1 pl-8 pt-4">
-                    <a href="#" class="relative hover:text-primary block font-medium capitalize transition">
-                        <span class="absolute -left-8 top-0 text-base">
-                            <i class="fa-regular fa-heart"></i>
-                        </span>
-                        My wishlist
-                    </a>
-                </div>
-
-                <div class="space-y-1 pl-8 pt-4">
-                    <a @click="logout()" href="#" class="relative hover:text-primary block font-medium capitalize transition">
-                        <span class="absolute -left-8 top-0 text-base">
-                            <i class="fa-regular fa-arrow-right-from-bracket"></i>
-                        </span>
-                        退出登录
-                    </a>
+                    <div v-if="user.userInfo.level > 90">
+                        <NuxtLink to="/admin" class="relative hover:text-primary block font-medium capitalize transition">
+                        进入后台
+                    </NuxtLink>
+                    </div>
+                    <div>
+                        <a @click="logout()" href="#" class="relative hover:text-primary block font-medium capitalize transition">
+                            退出登录
+                        </a>
+                    </div>
                 </div>
 
             </div>
