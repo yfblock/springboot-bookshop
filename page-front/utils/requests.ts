@@ -137,3 +137,30 @@ export async function updateGoodApproved(id: number, approved: number) {
     return request('/good/change_good_approved', {id, approved});
 }
 
+export async function getSettings() {
+    return request('/system/get_settings');
+}
+
+export async function updateSetting(name: string, value: string) {
+    return request('/system/update_setting', {name, value});
+}
+
+export async function addOpinion(formData: any) {
+    return request('/system/add_opinion', formData);
+}
+
+export async function getOpinions() {
+    return request('/system/get_opinions');
+}
+
+export async function getGoodById(id: any) {
+    return request('/good/get_good', {id});
+}
+
+export async function buyGood(id: any, addressId: any) {
+    return request('/good/buy_good', {id, addressId});
+}
+
+export async function getMyBuy() {
+    return request('/good/get_my_buy');
+}

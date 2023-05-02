@@ -32,16 +32,16 @@
                             </div>
                         </div>
                         <div class="pt-4 pb-3 px-4">
-                            <a href="#">
+                            <NuxtLink :to="'/buy?id=' + item['id']">
                                 <h4 class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">
                                     {{ item['name'] }}</h4>
-                            </a>
+                            </NuxtLink>
                             <div class="flex items-baseline mb-1 space-x-2">
                                 <p class="text-xl text-primary font-semibold">￥{{ item['price'] }}</p>
                             </div>
                         </div>
-                        <a href="#"
-                            class="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition">点击下单</a>
+                        <NuxtLink :to="'/buy?id=' + item['id']"
+                            class="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition">点击下单</NuxtLink>
                     </div>
                 </template>
             </div>

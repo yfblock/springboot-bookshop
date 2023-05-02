@@ -47,4 +47,11 @@ public interface GoodWrapper {
     ArrayList<Good> getAllAvailableGoods() throws SQLException;
     @Update("update good set approved={1} where id = {0}")
     void updateGoodApproved(Integer id, Integer approved) throws SQLException;
+    @Update("update good set status = 1 where id = {0}")
+    void buyGood(Integer id) throws SQLException;
+
+    @Insert("insert into `order` (good_id, user_id, address_id) VALUES ({0}, {1}, {2})")
+    Integer addOrder(Integer goodId, Integer userId, Integer addressId) throws SQLException;
+    @Select("select * from order_good where user_id = {0}")
+    ArrayList<Good> getMyBuy(Integer userId) throws SQLException;
 }

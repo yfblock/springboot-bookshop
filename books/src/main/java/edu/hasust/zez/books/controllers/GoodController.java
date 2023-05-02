@@ -219,4 +219,65 @@ public class GoodController {
         return ResultCode.ok("更改成功", null);
     }
 
+    @RequestMapping("/get_good")
+    @Validated
+    public ResultCode getGood(
+            @NotNull @Min(value = 0, message = "商品 id 不能小于 0") Integer id,
+            HttpSession session
+    ) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        UserView user = userWrapper.getUserInfo(userId);
+        if(user == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_FOUND);
+        }
+        return ResultCode.ok("获取成功", goodWrapper.getGoodById(id));
+    }
+
+
+    @RequestMapping("/buy_good")
+    @Validated
+    public ResultCode buyGood(
+            @NotNull @Min(value = 0, message = "商品 id 不能小于 0") Integer id,
+            @NotNull Integer addressId,
+            HttpSession session
+    ) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        UserView user = userWrapper.getUserInfo(userId);
+        if(user == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_FOUND);
+        }
+        Good good = goodWrapper.getGoodById(id);
+        if(good == null) {
+            return ResultCode.err(RepErrorCode.GOOD_NOT_FOUND);
+        }
+        if(good.getStatus() != 0) {
+            return ResultCode.err(RepErrorCode.GOOD_ALREADY_BEEN_BUY);
+        }
+        if(good.getApproved() != 1) {
+            return ResultCode.err(RepErrorCode.GOOD_ALREADY_BEEN_OFF_SHELF);
+        }
+        goodWrapper.buyGood(id);
+        goodWrapper.addOrder(id, userId, addressId);
+        return ResultCode.ok("购买成功", null);
+    }
+
+    @RequestMapping("/get_my_buy")
+    @Validated
+    public ResultCode getMyBuy(HttpSession session) throws SQLException {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null) {
+            return ResultCode.err(RepErrorCode.USER_NOT_LOGIN);
+        }
+        UserView user = userWrapper.getUserInfo(userId);
+        if(user == null || user.getLevel() <= 90) {
+            return ResultCode.err(RepErrorCode.USER_LEVEL_ERROR);
+        }
+        return ResultCode.ok("获取成功", goodWrapper.getMyBuy(userId));
+    }
 }

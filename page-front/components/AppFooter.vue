@@ -74,6 +74,7 @@
     <div class="bg-gray-800 py-4">
         <div class="container flex items-center justify-between">
             <p class="text-white">&copy; NZ Platform - All Right Reserved</p>
+            <p class="text-white" v-if="formData.beian">备案号：{{ formData.beian }}</p>
             <div>
                 <img src="/assets/images/methods.png" alt="methods" class="h-5">
             </div>
@@ -81,3 +82,25 @@
     </div>
     <!-- ./copyright -->
 </template>
+
+<script setup lang="ts">
+const toast = useToast();
+let formData = ref<any>({
+    beian: ''
+})
+
+const fetchSettings = async () => {
+    let res = await getSettings();
+    if(res && res['status']) {
+        let obj: any = {};
+        for(let i in res['data']) {
+            // opinions.value = res['data'];
+            obj[res['data'][i]['name']] = res['data'][i]['value'];
+        }
+        formData.value = obj;
+        console.log(obj);
+    }
+}
+
+await fetchSettings();
+</script>

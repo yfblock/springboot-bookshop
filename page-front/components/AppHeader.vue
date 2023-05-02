@@ -18,18 +18,23 @@
       </div>
 
       <div class="flex items-center space-x-4">
-        <div v-if="user.logined">
-            <NuxtLink to="/user/profile" class="text-center text-gray-700 hover:text-primary transition relative">
-              <div class="text-2xl">
-                <i class="icon icon-people"></i>
-              </div>
-              <div class="text-xs leading-3">{{ user.userInfo['username'] }}</div>
-            </NuxtLink>
-        </div>
-        <div v-else>
-          <NuxtLink to="/login" class="text-black rounded-sm hover:bg-gray-300 py-2 px-2.5 transition whitespace-nowrap">登陆</NuxtLink>
-          <NuxtLink to="/register" class="text-black rounded-sm hover:bg-gray-300 py-2 px-2.5 transition whitespace-nowrap">注册</NuxtLink>
-        </div>
+        <template v-if="user.logined">
+          <div></div>
+          <div>
+              <NuxtLink to="/user/profile" class="text-center text-gray-700 hover:text-primary transition relative">
+                <div class="text-2xl">
+                  <i class="icon icon-people"></i>
+                </div>
+                <div class="text-xs leading-3">{{ user.userInfo['username'] }}</div>
+              </NuxtLink>
+          </div>
+        </template>
+        <template v-else>
+          <div>
+            <NuxtLink to="/login" class="text-black rounded-sm hover:bg-gray-300 py-2 px-2.5 transition whitespace-nowrap">登陆</NuxtLink>
+            <NuxtLink to="/register" class="text-black rounded-sm hover:bg-gray-300 py-2 px-2.5 transition whitespace-nowrap">注册</NuxtLink>
+          </div>
+        </template>
       </div>
     </div>
   </header>
@@ -59,6 +64,7 @@
         <div class="flex items-center space-x-8 capitalize">
           <NuxtLink href="/" class="text-gray-200 hover:text-white transition">首页</NuxtLink>
           <NuxtLink href="/shop_list" class="text-gray-200 hover:text-white transition">商城列表</NuxtLink>
+          <NuxtLink href="/opinion" class="text-gray-200 hover:text-white transition">意见反馈</NuxtLink>
         </div>
       </div>
     </div>
